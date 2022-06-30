@@ -94,9 +94,9 @@ if __name__ == '__main__':
     
     for epoch in tqdm(range(epoch_start_idx, args.num_epochs + 1), leave = False):
         if args.inference_only: break # just to decrease identition
-        for step in tqdm(range(num_batch), leave = True): # tqdm(range(num_batch), total=num_batch, ncols=70, leave=False, unit='b'):
+        for step in tqdm(range(num_batch),colour = 'green', leave = False): # tqdm(range(num_batch), total=num_batch, ncols=70, leave=False, unit='b'):
             u, seq, pos, neg = [], [], [], []
-            for i in range(args.batch_size):
+            for i in tqdm(range(args.batch_size), leave = False, colour='red'):
                 _u, _seq, _pos, _neg = sample_function_one(user_train, usernum, itemnum, args.batch_size, args.maxlen, SEED = 999)
                 u.append(_u)
                 seq.append(_seq)

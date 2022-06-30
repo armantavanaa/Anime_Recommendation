@@ -17,10 +17,12 @@ def random_neq(l, r, s):
 def sample_function_one(user_train, usernum, itemnum, batch_size, maxlen, SEED):
     def sample():
 
-        user = np.random.randint(1, usernum + 1)
+        #user = np.random.randint(1, usernum + 1)
+        user = np.random.choice(list(user_train.keys()))
         while True:
             try:
-                while len(user_train[user]) <= 1: user = np.random.randint(1, usernum + 1)
+                #while len(user_train[user]) <= 1: user = np.random.randint(1, usernum + 1)
+                while len(user_train[user]) <= 1: user = np.random.choice(list(user_train.keys()))
 
                 seq = np.zeros([maxlen], dtype=np.int32)
                 pos = np.zeros([maxlen], dtype=np.int32)
@@ -113,6 +115,7 @@ class WarpSampler(object):
 def data_partition(fname, n_users):
     usernum = 0
     itemnum = 0
+    actual_nusers = 0
     User = defaultdict(list)
     user_train = {}
     user_valid = {}
@@ -130,9 +133,12 @@ def data_partition(fname, n_users):
         usernum = max(u, usernum)
         itemnum = max(i, itemnum)
         User[u].append(i)
+        # print(User[u])
 
+    User = {key : value for key, value in User.items() if len(value) > 1}
     for user in User:
         nfeedback = len(User[user])
+        actual_nusers += 1
         if nfeedback < 3:
             user_train[user] = User[user]
             user_valid[user] = []
@@ -144,6 +150,7 @@ def data_partition(fname, n_users):
             user_valid[user].append(User[user][-2])
             user_test[user] = []
             user_test[user].append(User[user][-1])
+    print("Actual users:", actual_nusers)
     return [user_train, user_valid, user_test, usernum, itemnum]
 
 # TODO: merge evaluate functions for test and val set
