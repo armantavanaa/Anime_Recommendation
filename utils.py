@@ -165,7 +165,7 @@ def evaluate(model, dataset, args):
         try:
             if len(train[u]) < 1 or len(test[u]) < 1: continue
         except KeyError:
-            print(u, " is missing")
+            #print(u, " is missing")
             continue
 
         seq = np.zeros([args.maxlen], dtype=np.int32)
@@ -216,7 +216,7 @@ def evaluate_valid(model, dataset, args):
         try:
             if len(train[u]) < 1 or len(test[u]) < 1: continue
         except KeyError:
-            print(u, " is missing")
+            #print(u, " is missing")
             continue
 
         seq = np.zeros([args.maxlen], dtype=np.int32)

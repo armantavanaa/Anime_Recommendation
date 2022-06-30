@@ -95,7 +95,6 @@ if __name__ == '__main__':
     for epoch in tqdm(range(epoch_start_idx, args.num_epochs + 1), leave = False):
         if args.inference_only: break # just to decrease identition
         for step in tqdm(range(num_batch), leave = True): # tqdm(range(num_batch), total=num_batch, ncols=70, leave=False, unit='b'):
-            print('training')
             u, seq, pos, neg = [], [], [], []
             for i in range(args.batch_size):
                 _u, _seq, _pos, _neg = sample_function_one(user_train, usernum, itemnum, args.batch_size, args.maxlen, SEED = 999)
@@ -104,26 +103,16 @@ if __name__ == '__main__':
                 pos.append(_pos)
                 neg.append(_neg)
             # u, seq, pos, neg = sampler.next_batch() # tuples to ndarray
-            print('training')
             u, seq, pos, neg = np.array(u), np.array(seq), np.array(pos), np.array(neg)
-            print('training')
             pos_logits, neg_logits = model(u, seq, pos, neg)
-            print('training')
             pos_labels, neg_labels = torch.ones(pos_logits.shape, device=device), torch.zeros(neg_logits.shape, device=device)
-            print('training')
             # print("\neye ball check raw_logits:"); print(pos_logits); print(neg_logits) # check pos_logits > 0, neg_logits < 0
             adam_optimizer.zero_grad()
-            print('training')
             indices = np.where(pos != 0)
-            print('training')
             loss = bce_criterion(pos_logits[indices], pos_labels[indices])
-            print('training')
             loss += bce_criterion(neg_logits[indices], neg_labels[indices])
-            print('training')
             for param in model.item_emb.parameters(): loss += args.l2_emb * torch.norm(param)
-            print('training')
             loss.backward()
-            print('training')
             adam_optimizer.step()
             print("loss in epoch {} iteration {}: {}".format(epoch, step, loss.item())) # expected 0.4~0.6 after init few epochs
     
