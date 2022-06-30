@@ -1,4 +1,4 @@
-import sys
+# import sys
 import copy
 import torch
 import random
@@ -73,7 +73,7 @@ class WarpSampler(object):
 
 
 # train/val/test data generation
-def data_partition(fname):
+def data_partition(fname, n_users):
     usernum = 0
     itemnum = 0
     User = defaultdict(list)
@@ -81,10 +81,14 @@ def data_partition(fname):
     user_valid = {}
     user_test = {}
     # assume user/item index starting from 1
-    f = open('data/%s.txt' % fname, 'r')
+    f = open(fname, 'r')
+    # Skp header
+    next(f)
     for line in f:
-        u, i = line.rstrip().split(' ')
+        u, i, _ = line.rstrip().split(',')
         u = int(u)
+        if u != -1 and u > n_users - 1:
+            break
         i = int(i)
         usernum = max(u, usernum)
         itemnum = max(i, itemnum)
@@ -97,6 +101,7 @@ def data_partition(fname):
             user_valid[user] = []
             user_test[user] = []
         else:
+            # FIXME: Randomly take one of the animes instead of last two
             user_train[user] = User[user][:-2]
             user_valid[user] = []
             user_valid[user].append(User[user][-2])
@@ -119,7 +124,12 @@ def evaluate(model, dataset, args):
         users = range(1, usernum + 1)
     for u in users:
 
-        if len(train[u]) < 1 or len(test[u]) < 1: continue
+        # Some missing users in datafile
+        try:
+            if len(train[u]) < 1 or len(test[u]) < 1: continue
+        except KeyError:
+            print(u, " is missing")
+            continue
 
         seq = np.zeros([args.maxlen], dtype=np.int32)
         idx = args.maxlen - 1
@@ -166,7 +176,11 @@ def evaluate_valid(model, dataset, args):
     else:
         users = range(1, usernum + 1)
     for u in users:
-        if len(train[u]) < 1 or len(valid[u]) < 1: continue
+        try:
+            if len(train[u]) < 1 or len(test[u]) < 1: continue
+        except KeyError:
+            print(u, " is missing")
+            continue
 
         seq = np.zeros([args.maxlen], dtype=np.int32)
         idx = args.maxlen - 1
