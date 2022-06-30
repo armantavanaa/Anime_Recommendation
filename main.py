@@ -2,6 +2,7 @@ import os
 import time
 import torch
 import argparse
+from tqdm import tqdm
 
 from model import SASRec
 from utils import *
@@ -90,9 +91,9 @@ if __name__ == '__main__':
     T = 0.0
     t0 = time.time()
     
-    for epoch in range(epoch_start_idx, args.num_epochs + 1):
+    for epoch in tqdm(range(epoch_start_idx, args.num_epochs + 1), leave = False):
         if args.inference_only: break # just to decrease identition
-        for step in range(num_batch): # tqdm(range(num_batch), total=num_batch, ncols=70, leave=False, unit='b'):
+        for step in tqdm(range(num_batch), color = "green", leave = True): # tqdm(range(num_batch), total=num_batch, ncols=70, leave=False, unit='b'):
             u, seq, pos, neg = sampler.next_batch() # tuples to ndarray
             u, seq, pos, neg = np.array(u), np.array(seq), np.array(pos), np.array(neg)
             pos_logits, neg_logits = model(u, seq, pos, neg)
