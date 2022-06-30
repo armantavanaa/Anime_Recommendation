@@ -50,10 +50,12 @@ def sample_function_one(user_train, usernum, itemnum, batch_size, maxlen, SEED):
 def sample_function(user_train, usernum, itemnum, batch_size, maxlen, result_queue, SEED):
     def sample():
 
-        user = np.random.randint(1, usernum + 1)
+        #user = np.random.randint(1, usernum + 1)
+        user = np.random.choice(list(user_train.keys()))
         while True:
             try:
-                while len(user_train[user]) <= 1: user = np.random.randint(1, usernum + 1)
+                #while len(user_train[user]) <= 1: user = np.random.randint(1, usernum + 1)
+                while len(user_train[user]) <= 1: user = np.random.choice(list(user_train.keys()))
 
                 seq = np.zeros([maxlen], dtype=np.int32)
                 pos = np.zeros([maxlen], dtype=np.int32)
