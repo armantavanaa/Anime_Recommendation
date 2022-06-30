@@ -52,7 +52,7 @@ if __name__ == '__main__':
     
     f = open(os.path.join(args.data_dir + '/' + args.train_dir, 'log.txt'), 'w')
     
-    sampler = WarpSampler(user_train, usernum, itemnum, batch_size=args.batch_size, maxlen=args.maxlen, n_workers=3)
+    sampler = WarpSampler(user_train, usernum, itemnum, batch_size=args.batch_size, maxlen=args.maxlen, n_workers=24)
     model = SASRec(usernum, itemnum, args).to(device) # no ReLU activation in original SASRec implementation?
     
     for name, param in model.named_parameters():
@@ -94,15 +94,15 @@ if __name__ == '__main__':
     
     for epoch in tqdm(range(epoch_start_idx, args.num_epochs + 1), leave = False):
         if args.inference_only: break # just to decrease identition
-        for step in tqdm(range(num_batch), leave = True): # tqdm(range(num_batch), total=num_batch, ncols=70, leave=False, unit='b'):
-            u, seq, pos, neg = [], [], [], []
-            for i in range(args.batch_size):
-                _u, _seq, _pos, _neg = sample_function_one(user_train, usernum, itemnum, args.batch_size, args.maxlen, SEED = 999)
-                u.append(_u)
-                seq.append(_seq)
-                pos.append(_pos)
-                neg.append(_neg)
-            # u, seq, pos, neg = sampler.next_batch() # tuples to ndarray
+        for step in tqdm(range(num_batch),colour = 'green', leave = False): # tqdm(range(num_batch), total=num_batch, ncols=70, leave=False, unit='b'):
+#            u, seq, pos, neg = [], [], [], []
+#            for i in tqdm(range(args.batch_size), leave = False, colour='red'):
+#                _u, _seq, _pos, _neg = sample_function_one(user_train, usernum, itemnum, args.batch_size, args.maxlen, SEED = 999)
+#                u.append(_u)
+#                seq.append(_seq)
+#                pos.append(_pos)
+#                neg.append(_neg)
+            u, seq, pos, neg = sampler.next_batch() # tuples to ndarray
             u, seq, pos, neg = np.array(u), np.array(seq), np.array(pos), np.array(neg)
             pos_logits, neg_logits = model(u, seq, pos, neg)
             pos_labels, neg_labels = torch.ones(pos_logits.shape, device=device), torch.zeros(neg_logits.shape, device=device)
