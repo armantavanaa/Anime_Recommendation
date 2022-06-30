@@ -38,6 +38,7 @@ with open(os.path.join(args.data_dir + '/' + args.train_dir, 'args.txt'), 'w') a
     f.write('\n'.join([str(k) + ',' + str(v) for k, v in sorted(vars(args).items(), key=lambda x: x[0])]))
 f.close()
 
+device = torch.device(args.device)
 if __name__ == '__main__':
     # global dataset
     dataset = data_partition(os.path.join(args.data_dir, args.file), args.n_users)
@@ -52,7 +53,7 @@ if __name__ == '__main__':
     f = open(os.path.join(args.data_dir + '/' + args.train_dir, 'log.txt'), 'w')
     
     sampler = WarpSampler(user_train, usernum, itemnum, batch_size=args.batch_size, maxlen=args.maxlen, n_workers=3)
-    model = SASRec(usernum, itemnum, args).to(args.device) # no ReLU activation in original SASRec implementation?
+    model = SASRec(usernum, itemnum, args).to(device) # no ReLU activation in original SASRec implementation?
     
     for name, param in model.named_parameters():
         try:
@@ -68,7 +69,7 @@ if __name__ == '__main__':
     epoch_start_idx = 1
     if args.state_dict_path is not None:
         try:
-            model.load_state_dict(torch.load(args.state_dict_path, map_location=torch.device(args.device)))
+            model.load_state_dict(torch.load(args.state_dict_path, map_location=torch.device(device)))
             tail = args.state_dict_path[args.state_dict_path.find('epoch=') + 6:]
             epoch_start_idx = int(tail[:tail.find('.')]) + 1
         except: # in case your pytorch version is not 1.6 etc., pls debug by pdb if load weights failed
@@ -93,11 +94,11 @@ if __name__ == '__main__':
     
     for epoch in tqdm(range(epoch_start_idx, args.num_epochs + 1), leave = False):
         if args.inference_only: break # just to decrease identition
-        for step in tqdm(range(num_batch), color = "green", leave = True): # tqdm(range(num_batch), total=num_batch, ncols=70, leave=False, unit='b'):
+        for step in tqdm(range(num_batch), leave = True): # tqdm(range(num_batch), total=num_batch, ncols=70, leave=False, unit='b'):
             u, seq, pos, neg = sampler.next_batch() # tuples to ndarray
             u, seq, pos, neg = np.array(u), np.array(seq), np.array(pos), np.array(neg)
             pos_logits, neg_logits = model(u, seq, pos, neg)
-            pos_labels, neg_labels = torch.ones(pos_logits.shape, device=args.device), torch.zeros(neg_logits.shape, device=args.device)
+            pos_labels, neg_labels = torch.ones(pos_logits.shape, device=device), torch.zeros(neg_logits.shape, device=device)
             # print("\neye ball check raw_logits:"); print(pos_logits); print(neg_logits) # check pos_logits > 0, neg_logits < 0
             adam_optimizer.zero_grad()
             indices = np.where(pos != 0)
