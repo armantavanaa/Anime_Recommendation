@@ -1,10 +1,10 @@
 # Anime_Recommendation
 
 Files this repo contains:
-- [EDA Notebook] (https://github.com/armantavanaa/Anime_Recommendation/blob/main/lawrence_eda.ipynb)
-- [Model] (https://github.com/armantavanaa/Anime_Recommendation/blob/main/model.py)
-- [Presentation slides] (https://github.com/armantavanaa/Anime_Recommendation/blob/main/Final_Presentation.pdf)
-- [Main] (https://github.com/armantavanaa/Anime_Recommendation/blob/main/main.py)
+- [EDA Notebook](https://github.com/armantavanaa/Anime_Recommendation/blob/main/lawrence_eda.ipynb)
+- [Model](https://github.com/armantavanaa/Anime_Recommendation/blob/main/model.py)
+- [Presentation slides](https://github.com/armantavanaa/Anime_Recommendation/blob/main/Final_Presentation.pdf)
+- [Main](https://github.com/armantavanaa/Anime_Recommendation/blob/main/main.py)
 - [Util](https://github.com/armantavanaa/Anime_Recommendation/blob/main/utils.py)
 
 ## Goal:
