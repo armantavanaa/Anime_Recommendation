@@ -60,3 +60,15 @@ Here is our final hyperparameters that improved our model the best.
 - Num_blocks = 2
 - Num_epochs = 50
 - Num_heads = 1
+
+## Result
+
+We were able to achieve:
+
+- Test Hit Rate @ k=10: 0.89252
+
+- NDCG @ k=10(Normalized Discounted Cumulative Gain): 0.99495
+
+As an example we chose Shingeki no Kyojin (Attack on Titan) for our model to predict the top n (10) closest animes to it. Here is what we got.
+
+
