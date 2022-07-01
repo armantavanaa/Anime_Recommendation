@@ -69,6 +69,7 @@ We were able to achieve:
 
 - NDCG @ k=10(Normalized Discounted Cumulative Gain): 0.99495
 
-As an example we chose Shingeki no Kyojin (Attack on Titan) for our model to predict the top n (10) closest animes to it. Here is what we got.
+As an example we chose Shingeki no Kyojin (Attack on Titan) for our model to predict the top n (10) closest animes to it. Here is the list of closet animes to Attack on Titan we got.
 
+<img size='200px' src="/images/resilt.png" alt="Employee data" title="Employee Data title">
 
