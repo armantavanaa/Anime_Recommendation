@@ -33,3 +33,15 @@ We decided to build a sequential recommendation over a simple recommendation to 
 ## EDA:
 
 We found a lot of missing users and items in the dataset after performing EDA for which we had to solve in order for our model to run.
+
+## Model
+
+- Try to capture the ‘context’ of user activities based on actions they have performed in the past
+- Two current approaches
+  - Markov Chains: Predicts a user’s next actions based on last actions
+  - RNN: Predict using longer-term semantics
+- SASRec balances these two approaches 
+  - Capture long term semantics
+  - Use an attention mechanism to predict using relatively few actions
+    - Only predict using ‘relevant’ items from a user’s history
+
