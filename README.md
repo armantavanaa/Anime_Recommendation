@@ -71,5 +71,5 @@ We were able to achieve:
 
 As an example we chose Shingeki no Kyojin (Attack on Titan) for our model to predict the top n (10) closest animes to it. Here is the list of closet animes to Attack on Titan we got.
 
-<img size='200px' src="/images/resilt.png" alt="Employee data" title="Employee Data title">
+<img size='200px' src="/images/result.png" alt="Employee data" title="Employee Data title">
 
