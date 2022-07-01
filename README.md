@@ -7,6 +7,10 @@ Files this repo contains:
 - [Main](https://github.com/armantavanaa/Anime_Recommendation/blob/main/main.py)
 - [Util](https://github.com/armantavanaa/Anime_Recommendation/blob/main/utils.py)
 
+## Description
+
+In this project we developed Self-Attentive Sequential Recommendation system that would recommend animes to users based on their history. We then found the closest animes to each other by finding the distance between them. Lastly, we predicted the top n animes for users.
+
 ## Goal:
 
 - Our main goal was to build a Self-Attentive Sequential Recommendation system by using self-attention based sequential model (SASrec)
