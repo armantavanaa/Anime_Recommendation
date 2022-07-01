@@ -24,7 +24,7 @@ Files this repo contains:
 We decided to build a sequential recommendation over a simple recommendation to take into account recency as it is very important since a lot of users' taste changes over time. So, this technique would allow us to better recommend animes to users.
 
 
-<img src="https://www.semanticscholar.org/paper/Fusing-Similarity-Models-with-Markov-Chains-for-He-McAuley/fea7e2bcbe852bcb33ce70a4d57664e954f0e82a" width="200" height="200" />
+![foxdemo](https://www.semanticscholar.org/paper/Fusing-Similarity-Models-with-Markov-Chains-for-He-McAuley/fea7e2bcbe852bcb33ce70a4d57664e954f0e82a)
 
 ## EDA:
 
