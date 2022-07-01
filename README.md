@@ -45,3 +45,18 @@ We found a lot of missing users and items in the dataset after performing EDA fo
   - Use an attention mechanism to predict using relatively few actions
     - Only predict using ‘relevant’ items from a user’s history
 
+## Hyperparameter Tuning
+
+Here is our final hyperparameters that improved our model the best.
+
+- Batch_size = 128
+- Dropout_rate = 0.5
+- hidden_units = 50
+- Inference_only = False
+- L2_emb = 0.0
+- Lr = 0.001
+- Maxlen = 50
+- N_users = 100000
+- Num_blocks = 2
+- Num_epochs = 50
+- Num_heads = 1
